@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: API-GATEWAY-SERVICE
+
+  cloud:
+    gateway:
+      routes:
+        - id: comment-service
+          uri: lb://COMMENT-SERVICE
+          predicates:
+            - Path=/api/comment/**
+# if we have multiple controller then we have make write like /api/comment/**,/api/sms/**,/api/whatsapp/**
+        - id: post-service
+          uri: lb://POST-SERVICE
+          predicates:
+            - Path=/api/post/**
+
+server:
+  port: 8083
+
+eureka:
+  instance:
+    prefer-ip-address: true
+
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
